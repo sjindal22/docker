@@ -1,0 +1,86 @@
+1. Briefly go over volumes again.
+2. Explain benefits of volume with scaling and application.
+3. Learn docker volume CLI.
+
+Challenge:
+Deploy the mysql db and adminer application.
+With mysql having a volume mounted on the data directory.
+
+#sudo sh
+#ls -l /var/lib/docker
+#
+
+Volumes give a way to persist temporary volumes of the container. Because every
+time you restart, stop and remove a container, it removes the memory persistence.
+
+Steps to create a volume within the container.
+1. You create a docker-compose.yml file.
+2. Create a volume.
+3. For the service, you write the volumename:directory_that_you_want_volume_to_be_mounted
+
+#vi docker-compose.yml.
+#docker-compose up -d
+#sudo sh
+#ls -l /var/lib/docker/volumes (you would find newly created volume)
+#ls -l /var/lib/docker/volumes/dockvol_nginx_volume/_data
+#echo "volume_test" > /var/lib/docker/volumes/dockvol_nginx_volume/_data/test
+
+Go into the container and check for the test file being created.
+#docker exec -it dockvol_nginx_1 bash
+# cat /usr/share/nginx/html/vol/test
+
+
+#docker-compose up -d --scale nginx=3
+#docker inspect dockvol_nginx_3 (will have the volume with the same directory info)
+#docker run --rm -it ubuntu-dev bash
+#docker volume prune (removes unused volume)
+
+
+root@default:/home/docker/dock-vol# docker volume ls
+DRIVER              VOLUME NAME
+local               19d2d07c231cfcce3776e1b07bad022a90598af332a60f8e4c4dc0b5e1d620a6
+local               21621de45763b6e04ef9a670e2c0269a36b2dacb421e9cca2a72cce5793b1e15
+local               6b3dbab25c3eddd238e5a56117364f90339c2b41a7b08e1c718186ded94ae05d
+local               d8af48a1f77d4a5229985c4993b651fbebdf60fde0e6d45913c1b278512ba863
+local               dockvol_nginx_volume
+root@default:/home/docker/dock-vol#
+root@default:/home/docker/dock-vol#
+root@default:/home/docker/dock-vol#
+root@default:/home/docker/dock-vol#
+root@default:/home/docker/dock-vol# docker volume inspect dockvol_nginx_volume
+[
+    {
+        "CreatedAt": "2018-04-05T23:59:41Z",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.project": "dockvol",
+            "com.docker.compose.volume": "nginx_volume"
+        },
+        "Mountpoint": "/mnt/sda1/var/lib/docker/volumes/dockvol_nginx_volume/_data",
+        "Name": "dockvol_nginx_volume",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+
+
+
+Note: curl nginx/vol/test will always hit the same file <volume_test> because it
+is sourced from one place. Helps in keeping persistent instance.
+
+
+/////My docker-compose.yml created dockvol_nginx_1 container
+
+
+
+
+CHALLENGE:
+
+1. vi docker-compose.yml.
+2. docker-compose up -d
+3. Check 102.168.99.100:8007 <create a table>
+4. docker-compose down (bring down all containers, this would still have the Volumes
+persistent, use docker volume ls)
+5. sudo su root.
+6. ls /var/lib/docker/volumes/mysqladmin_dbdata/_data (This would have the
+TEST table)

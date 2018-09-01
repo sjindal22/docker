@@ -1,0 +1,32 @@
+Install docker compose
+#sudo curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m`
+-o /usr/local/bin/docker-compose
+
+#sudo chmod +x /usr/local/bin/docker-compose
+
+What is a docker compose?
+It's a templated docker container deployment software. It orchestrates bunch
+of docker commands. It translates templated yaml file and turn them
+into docker commands. It allows for easy version control deployment.
+Deployment just becomes file centralized. You can check version history
+of the file. You an create complex bash scripting with docker run commands.
+
+Docker compose will always 2 things.
+1. Version
+2. services : These are containers basically.
+
+a. tomact1 and 2 are containers.
+b. the instance looks like name_of_directory_container-name
+c. image and ports (host_port:container_port) are keys
+
+Running docker compose checks for default docker-compose.yaml file.
+If it has a different name, you can run in following ways:
+#docker-compose up -d
+#docker-compose -f yaml_file.yaml up -d
+
+Enter the shell:
+#docker exec -it dockercomp_tomcat1_1 /bin/bash
+#ping dockercomp_tomcat2_1
+#echo $TEST_ENV_VAR
+
+You can use service name (tomcat1/2) or container_name(dockercomp_tomcat2_1)

@@ -1,0 +1,62 @@
+Aim:
+. Learn what scaling is
+. Learn how to scale containers using docker compose.
+. Learn what self-healing is
+
+Challenge
+. Deploy an apache web server (http) using compose. Then scale it to 3.
+
+Introduction:
+
+Let's assume there are 3 different containers accessing
+RESTFUL service container. Consider one of the container gets
+superfluous number of users, using it.
+That's when scaling will come into the picture, where
+RESTFUL services will have multiple instances with a loadbalancer.
+All the communication will go through loadbalance, that will determine
+the number of instances needed to service the requests coming from users.
+
+It's very important while scaling that service is stateless,
+nothing in the container is particular specific.
+For example authentication; let's say Restful service manages login
+service, which is within the container and not through other service,
+outside the container, it will result in compatibility issues.
+Because, when you access app_container1, it will need login to the
+RESTFUL container, which will need validation and the authentication
+will fail during scaling. This is one caveat.
+
+Steps:
+1. Create simple docker-compose.yml file and have the service base
+image pulled.
+2. Run docker-compose and then scale it.
+
+METHOD #1
+#vi docker-compose.yml.
+#docker-compose scale nginx=3
+
+METHOD #2
+#docker-compose up -d --scale nginx=4
+
+
+Using loadbalancer concept.
+1. Created a Dockerfile and writing hostname to a directory whenever,
+the container is accessed. This would giving what hostname is being served.
+
+#vi Dockerfile (scalevol directory)
+#vi run-videos/Dockerfile
+#docker run --rm -it ubuntu-dev-1 bash
+#curl nginx
+
+The way it loadbalances:
+1. Inside container running following command will start nginx with different
+container ids. Remember, we scaled to 4, there would be 4 different container IDS.
+#curl nginx/hostname
+
+Auto-healing comes into the picture when one of the containers goes down.
+#docker exec -it scalevol_nginx_4 bash
+#echo DOWN /usr/share/nginx/html/status (stops and exits the container)
+# docker ps -f health=healthy
+#docker ps -f health=unhealthy -q
+#docker restart $(#docker ps -f health=unhealthy -q) //Restarts all unhealthy
+containers
+This makes sure application should restart on unhealthy response.

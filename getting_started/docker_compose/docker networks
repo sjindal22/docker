@@ -1,0 +1,52 @@
+The infrastructure of docker container looks as follows:
+1. Inside the big virtual machine, we have a docker
+engine, which has a default network.
+2. Under this default network, there are loosely tied
+containers, which can be explicitly linked.
+3. To achieve more secured and isolated way of linking
+containers, could be done by using docker networks.
+
+How to create and view network?
+bridge DRIVER is kind of alternate bride to default bridge for the
+isolated network.
+
+#docker network create network_name
+#docker network  ls
+#docker network prune (cleans up network not used by any of the containers)
+#mkdir dockcomp-networks
+#docker network create udemy_test_network
+#mkdir mysql-adminer
+#docker run -d nginx
+#docker ps
+#docker network connect mysqladminer_frontend determined_leavitt
+#docker network inspect mysqladminer_frontend
+
+docker@default:~/mysql-adminer$
+docker@default:~/mysql-adminer$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                                                                  NAMES
+bb2070b4431f        nginx               "nginx -g 'daemon of…"   32 seconds ago       Up 31 seconds       80/tcp                                                                 determined_leavitt
+32d29f68d2e2        adminer:latest      "entrypoint.sh docke…"   About a minute ago   Up About a minute   0.0.0.0:8080->8080/tcp                                                 mysqladminer_adminer_1
+64e3e580de7b        mysql:latest        "docker-entrypoint.s…"   About a minute ago   Up About a minute   3306/tcp                                                               mysqladminer_db_1
+e52eacf7e774        tomcat:latest       "catalina.sh run"        2 hours ago          Up 2 hours          0.0.0.0:1002->80/tcp, 0.0.0.0:1003->8080/tcp, 0.0.0.0:1013->8080/tcp   dockercomp_tomcat1_1
+7d9e13fffc52        tomcat:latest       "catalina.sh run"        2 hours ago          Up 2 hours          0.0.0.0:1004->80/tcp, 0.0.0.0:1005->8080/tcp                           dockercomp_tomcat2_1
+
+Challenge:
+Run docker-compose with at least one container, then add containers
+to an existing network.
+
+
+Solution:
+a. The way is to run docker-compose on the yaml file to start service base image
+pull with different options and may be environment variable.
+b. Then run the docker image instance, attaching to the desired network.
+c. There are two different ways of doing it.
+
+METHOD #1:
+#docker-compose up -d
+#docker run -d --network <network_name> <container_image>
+#docker network inspect <network_name>
+
+METHOD #2:
+#docker run -d nginx
+#docker network connect dockcompnetworks_db_adminer <container_image_instance_name>
+#docker network inspect <network_name>

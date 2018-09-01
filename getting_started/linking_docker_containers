@@ -1,0 +1,18 @@
+#docker run -d httpd
+#docker run -d --name resue_httpd httpd
+
+#docker run -it --link "reuse_httpd:web" php-apache-wget /bin/bash
+#wget -v
+#wget "http://web:80"
+#cat index.html
+#docker logs reuse_httpd
+
+Challenge
+
+Create a mysql container and link it to phpmyadmin (adminer) container
+
+#docker run --name our-mysql -e MYSQL_ROOT_PASSWORD=password -d mysql:latest
+#docker run --link "our-mysql:db" -p 8080:8080 adminer
+
+Check:
+192.168.99.100:8080

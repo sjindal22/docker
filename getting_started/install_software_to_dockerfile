@@ -1,0 +1,48 @@
+#cd run-video
+#vi Dockerfile
+#docker build . -t ubuntu-text
+
+The RUN commands adds layer to the image pulled and executes
+the command.
+
+Accessing Container Console Logs
+#docker logs <container-name>
+#docker logs --tail 10 <container-name>
+#docker logs --tail 10  -f <container-name>
+Show last 10 lines and keep following.
+
+#docker run -d -P httpd
+#docker logs -f <container-name>
+
+Docker Container Healthchecks
+Lightweight test of your application. Its being server correctly,
+it's accessible. For web services, returns connection service status
+to database.
+
+#docker run -d -P httpd
+#curl -I -f "http://localhost:32769" || exit 1
+
+In the Dockerfile
+docker@default:~$ vi Dockerfile
+
+FROM httpd:latest
+
+RUN apt-get update && apt-get install -y \
+   --no-install-recommends curl && apt-get clean
+
+EXPOSE 80
+
+HEALTHCHECK --interval=15s --retries=5 --timeout=30s \
+   --start-period=30s CMD curl -I -f "http://localhost:80" || exit 1
+
+#docker build . -t httpd-hc
+#docker run -d -P --name httpd-new-hc httpd-hc
+
+
+SAMPLE OUTPUT:
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                            PORTS                         NAMES
+bed073999d03        httpd-hc            "httpd-foreground"       4 seconds ago       Up 3 seconds (health: starting)   0.0.0.0:32771->80/tcp         httpd-new-hc
+1bd0c9245a03        httpd               "httpd-foreground"       2 minutes ago       Up 2 minutes                      0.0.0.0:32770->80/tcp         httpd-my-hc
+408281d7e6c9        httpd               "httpd-foreground"       15 minutes ago      Up 15 minutes                     0.0.0.0:32769->80/tcp         elastic_tereshkova
+f707574e7364        webapp-shivika      "/bin/sh -c 'nginx -…"   25 hours ago        Up 25 hours                       80/tcp, 443/tcp               xenodochial_bhabha
+7ff8bc17aca3        webapp-shivika      "/bin/sh -c 'nginx -…"   25 hours ago        Up 25 hours                       0.0.0.0:80->80/tcp, 443/tcp   infallible_wing

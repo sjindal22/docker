@@ -1,0 +1,21 @@
+In this session, we will host our first docker container
+webapp
+
+1. Here we will create a directory named as "nginx"
+2. We will create a small and simple web page file,
+ending with .html extension.
+3. We will also create nginx conf file, which we can
+later customize.
+4. And finally the dockerfile with instructions, FROM,
+ADD, EXPOSE and CMD.
+5. Once created, we will build the container with a useful
+tag and run the docker container.
+6. You can check status of the container using command,
+docker ps.
+
+If you want to run docker instance in background, as daemon,
+run the following command with these options:
+#docker run -d -p 80:80 webapp-shivika:latest
+
+Go to the web browser:
+192.168.99.100/webapp.html
