@@ -7,15 +7,15 @@ environment for that application.
 
 ## A typical deployment infrastructure looks like below:
 
-1. Infrastructure: This layer has racks and servers.
-Hypervisor: Have vsphere, used to spin VMs.
-VM is used for deploying applications.
+* Infrastructure: This layer has racks and servers.
+* Hypervisor: Have vsphere, used to spin VMs.
+* VM is used for deploying applications.
 
 It is cumbersome to deploy multiple applications on a single VM for following
 reasons:
-1. Binary conflicts.
-2. Hitting CPU performance.
-3. Loadbalancing.
+* Binary conflicts.
+* Hitting CPU performance.
+* Loadbalancing.
 
 ## How does container deployment look like and why is it better?
 
