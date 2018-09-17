@@ -1,37 +1,25 @@
-1. Get a docker toolbox.
-Docker Toolbox is for older Mac and Windows systems that
-do not meet the requirements of Docker for Mac and
-Docker for Windows.
+## Hello World and Dockerfiles
 
-It's going to download install virtual machine on the
-system, allowing a terminal to spin up, on the machine.
+### docker run hello-world
 
-Following command executed in a different terminal will
-let you connect to the docker machine. Here "default" is
-the name of your docker machine.
-#docker-machine ssh default
-
-
-2. Hello World and Dockerfiles
-
-# docker run hello-world
-hello-world is the image name and docker first tries to
-find local instance of the image. Name after colon is
-called as tag. If you don't mention anything, docker will
-default to "latest tag. Because it couldn't find
+hello-world is the image name and docker first tries to find local instance of 
+the image. Name after colon is called as tag. If you don't mention anything, 
+docker will default to "latest tag. Because it couldn't find
 "hello-world" latest tag locally, it is going to pull
 from default registry of docker.
 
 Docker registry/hub: Bunch of managed docker images.
 They are managed by account called library and image name.
 
-#docker ps
+#### Commands and explanations
+
+`docker ps`
 Actively running Docker.
 
-#docker ps -a
 Shows all containers on the system.
+`docker ps -a`
 
-#docker rm <docker-id> or <docker-name>
+`docker rm <docker-id> or <docker-name>`
 
 3. How would you build a container?
 
